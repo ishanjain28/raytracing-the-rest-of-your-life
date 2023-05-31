@@ -137,6 +137,8 @@ fn run(mut width: usize, mut height: usize) -> Result<(), String> {
         }
         if should_update {
             let now = Instant::now();
+            // TODO(ishan): Update it to only re-render if height/width has changed
+            // this block should run if the app was sent to background
             active_demo.render(&mut buffer, width, height, NUM_SAMPLES);
             println!(
                 "Demo {} Time Taken(s) = {}",

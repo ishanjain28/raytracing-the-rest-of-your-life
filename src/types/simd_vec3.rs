@@ -47,6 +47,11 @@ impl Vec3 {
         self.get::<Z>()
     }
 
+    #[inline]
+    pub fn abs(&self) -> Self {
+        Vec3::new(self.x().abs(), self.y().abs(), self.z().abs())
+    }
+
     pub fn get<D: Dimension>(&self) -> f64 {
         unsafe { self.0.extract_unchecked(D::INDEX) }
     }

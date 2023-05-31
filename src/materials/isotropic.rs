@@ -18,9 +18,15 @@ impl<T: Texture> Isotropic<T> {
 }
 
 impl<T: Texture + Send + Sync> Material for Isotropic<T> {
-    fn scatter(&self, ray: &Ray, hit_rec: &HitRecord, rng: &mut SmallRng) -> (Vec3, Option<Ray>) {
+    fn scatter(
+        &self,
+        ray: &Ray,
+        hit_rec: &HitRecord,
+        rng: &mut SmallRng,
+    ) -> (Vec3, f64, Option<Ray>) {
         (
             self.texture.value(hit_rec.u, hit_rec.v, hit_rec.p),
+            0.0,
             Some(Ray::new(
                 hit_rec.p,
                 random_point_in_unit_sphere(rng),

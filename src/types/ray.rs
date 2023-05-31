@@ -40,9 +40,14 @@ impl Ray {
                 let material = hit_rec.material;
                 let emitted_color = hit_rec.material.emit(hit_rec.u, hit_rec.v, hit_rec.p);
 
-                if let (attenuation, Some(scattered_ray)) = material.scatter(self, &hit_rec, rng) {
+                if let (attenuation, pdf, Some(scattered_ray)) =
+                    material.scatter(self, &hit_rec, rng)
+                {
                     emitted_color
-                        + attenuation * scattered_ray.color(world, rng, background, depth + 1)
+                        + attenuation
+                            * material.scatter_pdf(self, &hit_rec, &scattered_ray)
+                            * scattered_ray.color(world, rng, background, depth + 1)
+                            / pdf
                 } else {
                     emitted_color
                 }

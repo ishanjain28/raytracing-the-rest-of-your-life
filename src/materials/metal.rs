@@ -29,7 +29,7 @@ impl Material for Metal {
         ray_in: &Ray,
         hit_rec: &HitRecord,
         rng: &mut SmallRng,
-    ) -> (Vec3, Option<Ray>) {
+    ) -> (Vec3, f64, Option<Ray>) {
         let reflected_ray = reflect(ray_in.direction.unit_vector(), hit_rec.normal);
         let scattered_ray = Ray::new(
             hit_rec.p,
@@ -38,9 +38,9 @@ impl Material for Metal {
         );
 
         if scattered_ray.direction.dot(&hit_rec.normal) > 0.0 {
-            (self.albedo, Some(scattered_ray))
+            (self.albedo, 0.0, Some(scattered_ray))
         } else {
-            (self.albedo, None)
+            (self.albedo, 0.0, None)
         }
     }
 }

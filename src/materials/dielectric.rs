@@ -24,7 +24,7 @@ impl Material for Dielectric {
         ray_in: &Ray,
         hit_rec: &HitRecord,
         rng: &mut SmallRng,
-    ) -> (Vec3, Option<Ray>) {
+    ) -> (Vec3, f64, Option<Ray>) {
         // Glass absorbs nothing! So, Attenuation is always going to be 1.0 for this
         let attenuation = Vec3::splat(1.0);
 
@@ -44,17 +44,20 @@ impl Material for Dielectric {
             let direction = reflect(unit_direction, hit_rec.normal);
             (
                 attenuation,
+                0.0,
                 Some(Ray::new(hit_rec.p, direction, ray_in.time())),
             )
         } else if let Some(direction) = refract(unit_direction, hit_rec.normal, refraction_ratio) {
             (
                 attenuation,
+                0.0,
                 Some(Ray::new(hit_rec.p, direction, ray_in.time())),
             )
         } else {
             let direction = reflect(unit_direction, hit_rec.normal);
             (
                 attenuation,
+                0.0,
                 Some(Ray::new(hit_rec.p, direction, ray_in.time())),
             )
         }
