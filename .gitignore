@@ -1,1 +1,4 @@
-/target
+target/
+*.ppm
+*.png
+!renders/*
